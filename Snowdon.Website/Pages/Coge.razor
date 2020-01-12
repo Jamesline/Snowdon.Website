@@ -1,0 +1,23 @@
+﻿@page "/coge"
+@using BlazorInputFile
+@using System.IO
+@using Snowdon.Website
+@using Snowdon.Website.Components
+
+@inject Services.AppDataService AppDataService
+
+<h3>Coge</h3>
+
+<p><FileReader /></p>
+<p>@AppDataService.MasterStatus </p>
+@if (AppDataService.FileLoaded == true)
+{
+    <p><CogeDisplay /></p>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        AppDataService.OnChange += StateHasChanged;
+    }
+}

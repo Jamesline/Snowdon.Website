@@ -1,0 +1,93 @@
+﻿@inject Services.AppDataService AppDataService
+
+<h5>Decode</h5>
+<button @onclick=DecodeFile class="btn btn-primary">Decode COGE</button>
+<p> </p>
+@if (filedecoded)
+{
+    <h3>Review results</h3>
+    <table class="table table-striped">
+
+        @foreach (var Row in CogeDisplayTable.Body)
+        {
+            @if (Row.Cells[0].Value == "CUSTOMERS")
+            {
+                <thead class="thead-dark">
+                    <tr>
+                        @foreach (var cell in Row.Cells)
+                        {
+                            <th>
+                                <p>@cell.Value</p>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+            }
+            else if (Row.Cells[0].Value == "TOTAL")
+            {
+                <tbody>
+                    <tr class=" table-success">
+                        @foreach (var cell in Row.Cells)
+                        {
+                            <td>
+                                <p>@cell.Value</p>
+                            </td>
+                        }
+                    </tr>
+                </tbody>
+            }
+            else
+            {
+                <tbody>
+                    <tr>
+                        @foreach (var cell in Row.Cells)
+                        {
+                            <td>
+                                <p>@cell.Value</p>
+                            </td>
+                        }
+                    </tr>
+                </tbody>
+            }
+        }
+    </table>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        AppDataService.OnChange += StateHasChanged;
+    }
+    Services.EPPlusBuilder.TablesModel Tables = new Services.EPPlusBuilder.TablesModel();
+    Services.EPPlusBuilder.TablesModel.RowModel CogeRowModel = new Services.EPPlusBuilder.TablesModel.RowModel();
+    Services.EPPlusBuilder.TablesModel.TableModel CogeTable = new Services.EPPlusBuilder.TablesModel.TableModel();
+    Services.EPPlusBuilder.TablesModel.TableModel CogeDisplayTable = new Services.EPPlusBuilder.TablesModel.TableModel();
+    Services.CogeReturn cogeReturn = new Services.CogeReturn();
+    bool filedecoded;
+    string decodeStatus;
+
+    async Task DecodeFile()
+    {
+        try
+        {
+            var fileInRam = AppDataService.CogeMem;
+            using (var package = new OfficeOpenXml.ExcelPackage(fileInRam))
+            {
+                if (package != null)
+                {
+                    Tables = Services.EPPlusBuilder.Parse(package, false);
+                }
+            }
+            CogeTable = Common.FetchTableByName(Tables, "REV_CUST");
+        }
+        catch (Exception ex)
+        {
+            filedecoded = false;
+            decodeStatus = "File failed decoding: " + ex.Message;
+        }
+
+        CogeDisplayTable = Services.CogeBuilder.BuildCoge(CogeTable);
+        filedecoded = true;
+    }
+
+}

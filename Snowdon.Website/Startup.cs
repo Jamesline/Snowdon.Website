@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Snowdon.Website.Data;
+using Snowdon.Website.Services;
 
 namespace Snowdon.Website
 {
@@ -28,7 +28,7 @@ namespace Snowdon.Website
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<AppDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
