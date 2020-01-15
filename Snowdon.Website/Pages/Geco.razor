@@ -1,4 +1,4 @@
-﻿@page "/coge"
+﻿@page "/geco"
 @using BlazorInputFile
 @using System.IO
 @using Snowdon.Website
@@ -6,14 +6,14 @@
 
 @inject Services.AppDataService AppDataService
 
-<h3>Coge</h3>
+<h3>Geco</h3>
 
 <p><FileReader /></p>
 <p>@AppDataService.MasterStatus </p>
 @if (AppDataService.FileLoaded == true)
 {
-    
-    <p><CogeDisplay /></p>
+
+    <p><GecoDisplay /></p>
 }
 
 @code {

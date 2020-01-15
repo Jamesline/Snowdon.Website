@@ -41,7 +41,7 @@ namespace Snowdon.Website.Shared
         }
         public static int FindRowByCellContent(TableModel table, string SearchWord, int Col, int Row)
         {
-            for (int i = 0; i < table.Body.Count; i++)
+            for (int i = Row; i < table.Body.Count; i++)
             {
                 string cellValue = FetchCellFromRow(table.Body[i], Col);
                 if (cellValue == SearchWord)
@@ -53,9 +53,22 @@ namespace Snowdon.Website.Shared
         }
         public static RowModel ReadRow(TableModel table, int Row)
         {
-            for (int i = 0; i < table.Body.Count; i++)
+            for (int i = Row; i < table.Body.Count; i++)
             {
-                if ((i == Row) && (EmptyCellChecker(table, Row, 13) == false))
+                if ((i == Row))
+                // if ((i == Row) && (EmptyCellChecker(table, Row, 0) == false))
+                {
+                    return table.Body[Row];
+                }
+            }
+            return null;
+        }
+        public static RowModel ReadRow(TableModel table, int Row,int Col)
+        {
+            for (int i = Row; i < table.Body.Count; i++)
+            {
+                if ((i == Row))
+                // if ((i == Row) && (EmptyCellChecker(table, Row, 0) == false))
                 {
                     return table.Body[Row];
                 }

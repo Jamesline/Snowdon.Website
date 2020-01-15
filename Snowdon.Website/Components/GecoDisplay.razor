@@ -1,13 +1,13 @@
 ﻿@inject Services.AppDataService AppDataService
 
 <h5>Decode</h5>
-<button @onclick=DecodeFile class="btn btn-primary">Decode COGE</button>
+<button @onclick=DecodeFile class="btn btn-primary">Decode GECO</button>
 <p> </p>
 @if (filedecoded)
 {
     <h3>Review results</h3>
     <table class="table table-striped">
-        @foreach (var Row in CogeDisplayTable.Body)
+        @foreach (var Row in GecoDisplayTable.Body)
         {
             @if (Row.Cells[0].Value == "CUSTOMERS")
             {
@@ -59,16 +59,15 @@
     }
 
     Services.EPPlusBuilder.TablesModel Tables = new Services.EPPlusBuilder.TablesModel();
-    Services.EPPlusBuilder.TablesModel.RowModel CogeRowModel = new Services.EPPlusBuilder.TablesModel.RowModel();
-    Services.EPPlusBuilder.TablesModel.TableModel CogeTable = new Services.EPPlusBuilder.TablesModel.TableModel();
-    Services.EPPlusBuilder.TablesModel.TableModel CogeDisplayTable = new Services.EPPlusBuilder.TablesModel.TableModel();
-    Services.CogeReturn cogeReturn = new Services.CogeReturn();
+    Services.EPPlusBuilder.TablesModel.RowModel GecoRowModel = new Services.EPPlusBuilder.TablesModel.RowModel();
+    Services.EPPlusBuilder.TablesModel.TableModel GecoTable = new Services.EPPlusBuilder.TablesModel.TableModel();
+    Services.EPPlusBuilder.TablesModel.TableModel GecoDisplayTable = new Services.EPPlusBuilder.TablesModel.TableModel();
+    Services.GecoReturns gecoReturns = new Services.GecoReturns();
     bool filedecoded;
     string decodeStatus;
-     
+
     async Task DecodeFile()
     {
-        Console.WriteLine("Coge Decode selected.");
         try
         {
             var fileInRam = AppDataService.FileMem;
@@ -79,7 +78,14 @@
                     Tables = Services.EPPlusBuilder.Parse(package, false);
                 }
             }
-            CogeTable = Common.FetchTableByName(Tables, "REV_CUST");
+
+            GecoTable = Common.FetchTableByName(Tables, "Profit & Loss");
+            if(GecoTable != null)
+            {
+                Console.WriteLine("Geco Table not null");
+                var count = GecoTable.Body.Count();
+                Console.WriteLine("Geco Row Count: " + count);
+            }
         }
         catch (Exception ex)
         {
@@ -87,8 +93,12 @@
             decodeStatus = "File failed decoding: " + ex.Message;
         }
 
-        CogeDisplayTable = Services.CogeBuilder.BuildCoge(CogeTable);
-        filedecoded = true;
+        GecoDisplayTable = Services.GecoBuilder.BuildGeco(GecoTable);
+                if (GecoDisplayTable==null)
+                {
+                    filedecoded = false;
+                }
+        filedecoded = false;
     }
 
 }

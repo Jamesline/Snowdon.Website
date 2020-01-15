@@ -10,9 +10,11 @@ namespace Snowdon.Website.Services
     {
         private string _status;
         private bool _fileloaded;
+        private bool _fileloaded2;
         public MemoryStream CogeMem { get; set; }
         public MemoryStream GecoMem { get; set; }
         public MemoryStream OtherMem { get; set; }
+        public MemoryStream FileMem { get; set; }
         public string MasterStatus
         {
             get => _status;
@@ -30,6 +32,16 @@ namespace Snowdon.Website.Services
             set
             {
                 _fileloaded = value;
+                NotifyDataChanged();
+            }
+        }
+        public bool FileLoaded2
+        {
+            get => _fileloaded2;
+
+            set
+            {
+                _fileloaded2 = value;
                 NotifyDataChanged();
             }
         }

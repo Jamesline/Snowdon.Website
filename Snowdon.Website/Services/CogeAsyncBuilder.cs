@@ -20,7 +20,7 @@ namespace Snowdon.Website.Services
 
             for (int i = _customerRowStart; i < _customerRowEnd + 1; i++)
             {
-                var CogeRow = Common.ReadRow(table, i);
+                var CogeRow = Common.ReadRow(table, i,13);
                 CogeRow = Common.SizeRow(CogeRow, 14, 0);
                 CogeRow = Common.CellTyper(CogeRow);
                 if ((Common.EmptyCellChecker(CogeRow, 0) == true)) //|| (common.EmptyCellChecker(CogeRow, 13) == true)|| (common.IsNumeric(CogeRow.Cells[0].Value.ToString())==false))

@@ -23,7 +23,7 @@
             memoryStream = ms;
             
             await file.Data.CopyToAsync(ms);
-            AppDataService.CogeMem = ms;
+            AppDataService.FileMem = ms;
 
             status = $"Finished loading {file.Size} bytes from {file.Name}";
             AppDataService.MasterStatus = status;
