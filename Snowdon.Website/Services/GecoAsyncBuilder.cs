@@ -49,6 +49,7 @@ namespace Snowdon.Website.Services
                     gecoPosition.CustomerName = GecoRow.Cells[0].Value;
                     gecoPosition.TotalRow = Common.FindRowByCellContent(table, "Tot.Customer", 1, i);
                     GecoPostions.Add(gecoPosition);
+                    Console.Write(gecoPosition.CustomerName);
                 }
 
             }
@@ -62,6 +63,7 @@ namespace Snowdon.Website.Services
                 var GecoRow = new RowModel();
                 GecoRow = ParseGecoRow(table, gecoPositions[i].CustomerName, gecoPositions[i].TotalRow);
                 displayTable.Body.Add(GecoRow);
+
             }
 
                 return displayTable;

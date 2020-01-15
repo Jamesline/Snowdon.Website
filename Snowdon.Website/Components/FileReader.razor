@@ -15,19 +15,22 @@
 
     async Task HandleSelection(IFileListEntry[] files)
     {
+        status = "";
         fileloaded = false;
         file = files.FirstOrDefault();
         if (file != null)
         {
             var ms = new MemoryStream();
             memoryStream = ms;
-            
+
             await file.Data.CopyToAsync(ms);
             AppDataService.FileMem = ms;
 
             status = $"Finished loading {file.Size} bytes from {file.Name}";
-            AppDataService.MasterStatus = status;
+            Console.WriteLine("******************************************************");
+            Console.WriteLine(status);
 
+            AppDataService.MasterStatus = status;
             AppDataService.FileLoaded = true;
         }
     }
